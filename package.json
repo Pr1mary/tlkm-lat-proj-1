@@ -4,8 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Rafli",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "expressjs": "^1.0.1",
+    "mongodb": "^4.1.1",
+    "pg": "^8.7.1"
+  }
 }
