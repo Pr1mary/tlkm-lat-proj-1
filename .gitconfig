@@ -1,0 +1,4 @@
+[core]
+    editor = code --wait
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
