@@ -9,7 +9,7 @@
   "author": "Rafli",
   "license": "ISC",
   "dependencies": {
-    "expressjs": "^1.0.1",
+    "express": "^4.17.1",
     "mongodb": "^4.1.1",
     "pg": "^8.7.1"
   }
