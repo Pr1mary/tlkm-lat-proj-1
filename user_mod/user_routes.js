@@ -3,10 +3,11 @@ const router = express.Router();
 
 const crypto = require("crypto");
 
-const jwt = require("jsonwebtoken");
-const signkey = "asdfasdf";
+const fs = require("fs");
 
-const userData = require("./user_data.js");
+const jwt = require("jsonwebtoken");
+const signkey = "secretkey";
+const userData = require("./user_data");
 
 userData.setupDB("user_db", "user_account");
 
@@ -83,12 +84,48 @@ router
     let msg = "FAILED: invalid token";
     let status = false;
 
-    await jwt.verify(reqdata.token, signkey, (err, data) => {
+    await jwt.verify(reqdata.token, signkey,(err, data) => {
         if(data != undefined){
             status = true;
             msg = "SUCCESS: token authorized"
+        }else{
+            msg = "FAILED: "+err;
         }
     });
+
+    res.send({
+        "status": status,
+        "msg": msg
+    });
+
+});
+
+// route to update user data
+router
+.route("/user/update")
+.post(async (req, res, next) => {
+
+    const reqdata = req.body;
+    let msg = "";
+    let status = false;
+    let username = "";
+    
+    await jwt.verify(reqdata.token, signkey, (err, data) => username = data.username);
+
+    reqdata.password = await crypto.createHash("sha256").update(reqdata.password).digest("base64");
+    
+    try {
+        await userData.editAccount(username, reqdata.email, reqdata.password)
+        .then(ack => {
+            if(ack) msg = "SUCCESS: data has been updated";
+            else msg = "FAILED: data failed to update";
+
+            status = ack
+        })
+    } catch (e) {
+        console.log(e);
+        msg = e;
+    }
 
     res.send({
         "status": status,

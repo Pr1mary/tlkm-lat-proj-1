@@ -84,9 +84,56 @@ let loginAccount = async (username, password) => {
     }
 }
 
-// let editAccount = async (data) => {
+// edit account data to database
+let editAccount = async (username, email, password) => {
+    
+    try {
+        // connect to db
+        await client.connect();
 
-// }
+        console.log("connect success");
+
+        const database = client.db(db_name);
+        const collection = database.collection(col_name);
+
+        // check old data
+        const oldData = await collection.findOne({
+            "username": username
+        })
+
+        // insert old email if input email is null
+        if(email == null) email = oldData.email;
+        // insert old password if input password is null
+        if(password == null) password = oldData.password;
+
+        // using username as filter
+        // username cannot be changed
+        const filter = {
+            "username": username
+        }
+
+        // updated data
+        const updatedData = {
+            $set: {
+                "email": email,
+                "password": password
+            }
+        }
+
+        // updating data to database
+        const dataRes = await collection.updateOne(filter, updatedData);
+
+        // return true if success, false if failed
+        if(dataRes == null) return false;
+        else return true;
+
+    } catch (error) {
+        // if error, close connection
+        console.log(e);
+        client.close();
+    }
+
+}
 
 // let deleteAccount = async (data) => {
 //     try {
@@ -112,5 +159,6 @@ module.exports = {
     client,
     setupDB,
     addAccount,
-    loginAccount
+    loginAccount,
+    editAccount
 }
