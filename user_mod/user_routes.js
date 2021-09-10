@@ -7,6 +7,7 @@ const fs = require("fs");
 
 const jwt = require("jsonwebtoken");
 const signkey = "secretkey";
+// const signkey = fs.readFileSync()
 const userData = require("./user_data");
 
 userData.setupDB("user_db", "user_account");
@@ -103,7 +104,7 @@ router
 // route to update user data
 router
 .route("/user/update")
-.post(async (req, res, next) => {
+.patch(async (req, res, next) => {
 
     const reqdata = req.body;
     let msg = "";
