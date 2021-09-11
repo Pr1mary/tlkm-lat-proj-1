@@ -1,6 +1,6 @@
 const e = require("express");
 const { MongoClient } = require("mongodb");
-const uri = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
+const uri = "mongodb://" // insert mongodb uri here
 const client = new MongoClient(uri);
 
 let db_name = "";

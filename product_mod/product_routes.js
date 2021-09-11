@@ -85,16 +85,16 @@ router
             if(res == undefined) throw "token authorization failed";
         });
 
-        // proddb.editProduct(id, reqdata.name, reqdata.desc, reqdata.qty)
-        // .then(resdata => {
-        //     res.send(resdata);
-        // })
-        // .catch(err => {
-        //     console.log(err)
-        //     res.status(500).send({
-        //         "err": err
-        //     });
-        // });
+        proddb.editProduct(id, reqdata.name, reqdata.desc, reqdata.qty)
+        .then(resdata => {
+            res.send(resdata);
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).send({
+                "err": err
+            });
+        });
 
     } catch (err) {
         // token unauthorized

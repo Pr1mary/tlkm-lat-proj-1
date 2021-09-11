@@ -1,13 +1,13 @@
-const { Pool, Client } = require("pg");
+const { Pool } = require("pg");
 
 // sql query using pool
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
+    user: 'postgres', // insert db user here
+    host: 'localhost', // insert db host url here
     database: 'proddb',
-    password: 'Raflis2001',
-    port: 5432,
+    password: 'password', // insert db password here
+    port: 5432, // insert db port here
 });
 
 let tablename = "";
@@ -93,8 +93,10 @@ const editProduct = async (id, name, desc, qty) => {
             await client.query(editquery);
         }
 
-        const editquery = "UPDATE $1::text SET last_stamp=$2::text WHERE id=$3::text";
-        msg = await client.query(editquery, ["prodtb", new Date(), id]);
+        // const date = new Date();
+
+        // const editquery = "UPDATE "+tablename+" SET last_stamp='"+date.getTime()+"'::timestamp WHERE id=$2::text";
+        // msg = await client.query(editquery, [id]);
 
         await client.query("COMMIT");
 
