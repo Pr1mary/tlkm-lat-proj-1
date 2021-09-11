@@ -1,10 +1,8 @@
-# tlkm-lat-proj-1
+# tlkm-lat-proj-1 documentation
 
 Nodejs application for product and user service. Made with nodejs, expressjs, postgresql, and mongodb.
 
-## project documentation
-
-project documentation for tlkm-lat-proj-1 project.
+## User path
 
 ### PATH: /user/register
 
@@ -98,4 +96,100 @@ this path is used to update existing user account info
         "status": Boolean,
         "msg": String,
     }
+    ```
+
+## Product path
+
+### PATH: /product
+
+- description:
+this path is used to get all product from database
+
+- method: **GET**
+
+- body:
+
+- response:
+    ```
+    [
+		...,
+		{
+        	"status": Boolean,
+        	"msg": String,
+    	},
+		...
+	]
+    ```
+
+### PATH: /product/add
+
+- description:
+this path is used to add new product to database
+
+- method: **POST**
+
+- body:
+	```
+	{
+		"token": String,
+		"data": {
+			"name": String,
+			"desc": String,
+			"qty": Integer
+		}
+	}
+	```
+
+- response:
+    ```
+    {
+		"id": Integer
+	}
+    ```
+
+### PATH: /product/delete/:id
+
+- description:
+this path is used to delete product from database based on given id in path
+
+- method: **POST**
+
+- body:
+	```
+	{
+		"token": String
+	}
+	```
+
+- response:
+    ```
+    {
+		"msg": String
+	}
+    ```
+	
+### PATH: /product/update/:id
+
+- description:
+this path is used to update product in the database based on given id in path
+
+- method: **POST**
+
+- body:
+	```
+	{
+		"token": String,
+		"data": {
+			"name"?: String,
+			"desc"?: String,
+			"qty"?: Integer
+		}
+	}
+	```
+
+- response:
+    ```
+    {
+		"msg": String
+	}
     ```
