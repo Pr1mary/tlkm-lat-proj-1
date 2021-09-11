@@ -6,7 +6,7 @@ const pool = new Pool({
     user: 'postgres', // insert db user here
     host: 'localhost', // insert db host url here
     database: 'proddb',
-    password: 'password', // insert db password here
+    password: 'pass', // insert db password here
     port: 5432, // insert db port here
 });
 
@@ -75,21 +75,25 @@ const editProduct = async (id, name, desc, qty) => {
     try {
         await client.query("BEGIN");
 
+        // check if data is available on database
+        const checkquery = "SELECT * FROM "+tablename+" WHERE id="+id;
+        const data = await client.query(checkquery);
+
+        if(data.rowCount == 0) throw "item not available";
+
+        // start process of updating data
         if(name != null){
             const editquery = "UPDATE "+tablename+" SET prodname='"+name+"' WHERE id="+id;
-            // msg[0] = 
             await client.query(editquery);
         }
 
         if(desc != null){
             const editquery = "UPDATE "+tablename+" SET descr='"+desc+"' WHERE id="+id;
-            // msg[1] = 
             await client.query(editquery);
         }
 
         if(qty != null){
             const editquery = "UPDATE "+tablename+" SET qty='"+qty+"' WHERE id="+id;
-            // msg[2] = 
             await client.query(editquery);
         }
 
@@ -99,9 +103,12 @@ const editProduct = async (id, name, desc, qty) => {
         // msg = await client.query(editquery, [id]);
 
         await client.query("COMMIT");
+        
+        msg = "SUCCESS: successfully update the data";
 
     } catch (e) {
-        await client.query("ROLLBACK")
+        await client.query("ROLLBACK");
+        msg = "FAILED: "+e;
     } finally {
         client.release;
     }
