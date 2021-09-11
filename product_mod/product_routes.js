@@ -86,8 +86,10 @@ router
         });
 
         proddb.editProduct(id, reqdata.name, reqdata.desc, reqdata.qty)
-        .then(resdata => {
-            res.send(resdata);
+        .then(msg => {
+            res.send({
+                "msg": msg
+            });
         })
         .catch(err => {
             console.log(err)
